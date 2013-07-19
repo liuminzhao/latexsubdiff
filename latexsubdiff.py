@@ -34,19 +34,36 @@ def CheckoutFlatten(commit, filedir, fileloc, output):
     flatten(fileloc, output)
     os.chdir(owd)
 
+def CopyFlatten(filedir, fileloc, output):
+    owd = os.getcwd()
+    os.system('cp -R * ' + filedir)
+    os.chdir(filedir)
+    flatten(fileloc, output)
+    os.chdir(owd)
+
 def cleanAllNonePDF():
   ''' Delete all diff files that are not a .pdf file '''
   for filename in glob.glob('diff*') :
     if not "pdf" in filename and not "tex" in filename:
       os.remove(filename)
 
-args = ['./latexsubdiff.py', '73848', '30bbf', 'yang.tex']
-sys.argv = args
-old_commit, new_commit, fileloc = sys.argv[1:]
+if len(sys.argv) == 4:
+    old_commit, new_commit, fileloc = sys.argv[1:]
+elif len(sys.argv) == 3:
+    old_commit, fileloc = sys.argv[1:]
+elif len(sys.argv) == 2:
+    old_commit = 'HEAD'
+    fileloc = sys.argv[1]
+else:
+    sys.exit('No file to be compared!')
+
 old_dir = tempfile.mkdtemp()
 new_dir = tempfile.mkdtemp()
 CheckoutFlatten(old_commit, old_dir, fileloc, 'old.tex')
-CheckoutFlatten(new_commit, new_dir, fileloc, 'new.tex')
+if len(sys.argv) == 4:
+    CheckoutFlatten(new_commit, new_dir, fileloc, 'new.tex')
+else:
+    CopyFlatten(new_dir, fileloc, 'new.tex')
 os.system('latexdiff --flatten ' + old_dir+ '/old.tex ' +  new_dir +'/new.tex > diff.tex')
 os.system('pdflatex --nonestopmode diff.tex')
 os.system('open diff.pdf')

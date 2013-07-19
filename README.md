@@ -10,3 +10,11 @@ Also there is a nice post about latexdiff in git : <http://tex.stackexchange.com
 # Usage #
 
 	./latexsubdiff oldcommit newcommit texfile
+
+Can compare un-committed file too:
+
+	./latexsubdiff oldcommit texfile
+
+with HEAD:
+
+	./latexsubdiff texfile
