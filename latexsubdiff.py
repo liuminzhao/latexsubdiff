@@ -40,15 +40,14 @@ def cleanAllNonePDF():
     if not "pdf" in filename and not "tex" in filename:
       os.remove(filename)
 
-args = ['./mylatexdiff.py', '9cc43', '7e66f', 'yang.tex']
+args = ['./latexsubdiff.py', '73848', '30bbf', 'yang.tex']
 sys.argv = args
 old_commit, new_commit, fileloc = sys.argv[1:]
 old_dir = tempfile.mkdtemp()
 new_dir = tempfile.mkdtemp()
 CheckoutFlatten(old_commit, old_dir, fileloc, 'old.tex')
 CheckoutFlatten(new_commit, new_dir, fileloc, 'new.tex')
-os.system('latexdiff ' + old_dir+ '/old.tex ' +  new_dir +'/new.tex > diff.tex')
+os.system('latexdiff --flatten ' + old_dir+ '/old.tex ' +  new_dir +'/new.tex > diff.tex')
 os.system('pdflatex --nonestopmode diff.tex')
 os.system('open diff.pdf')
 cleanAllNonePDF()
-# output = subprocess.Popen(["/usr/texbin/pdflatex", "out1.tex"], stdout=subprocess.PIPE).communicate()[0]
