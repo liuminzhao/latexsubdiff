@@ -66,5 +66,8 @@ else:
     CopyFlatten(new_dir, fileloc, 'new.tex')
 os.system('latexdiff --flatten ' + old_dir+ '/old.tex ' +  new_dir +'/new.tex > diff.tex')
 os.system('pdflatex --nonestopmode diff.tex')
+os.system('bibtex diff.aux')
+os.system('pdflatex --nonestopmode diff.tex')
+os.system('pdflatex --nonestopmode diff.tex')
 os.system('open diff.pdf')
 cleanAllNonePDF()
