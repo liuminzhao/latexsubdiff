@@ -9,12 +9,26 @@ Also there is a nice post about latexdiff in git : <http://tex.stackexchange.com
 
 # Usage #
 
-	./latexsubdiff oldcommit newcommit texfile
+	./latexsubdiff.py oldcommit newcommit texfile
 
 Can compare un-committed file too:
 
-	./latexsubdiff oldcommit texfile
+	./latexsubdiff.py oldcommit texfile
 
 with HEAD:
 
-	./latexsubdiff texfile
+	./latexsubdiff.py texfile
+
+# Bibtex #
+
+Please copy the `bib` file to project root directory.
+
+# Claim #
+
+This is an unclean work by a Python beginner. So please help to improve it.
+
+# TODO #
+
+- [ ] use `subprogress` instead of `os`
+- [ ] clean output from `os`
+- [ ] use `argsparse` instead of `sys.argv`
